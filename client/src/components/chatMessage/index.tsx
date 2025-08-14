@@ -3,9 +3,9 @@ import './index.css'
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 
-interface Message {
+export interface Message {
     role: 'user' | 'assistant'
-    hasImg: boolean
+    hasImg?: boolean
     content: string
     timestamp: Date
     toolCalls?: any[]
@@ -21,10 +21,8 @@ function isImageHref(href?: string) {
     if (!href) return false;
     try {
         const u = new URL(href);
-        // 1) Azure/簽名網址常帶 rsct=image/png 之類
         const ct = u.searchParams.get("rsct");
         if (ct && /^image\//i.test(ct)) return true;
-        // 2) 常見副檔名
         if (/\.(png|jpe?g|webp|gif|bmp|svg)(\?|#|$)/i.test(u.pathname)) return true;
         return false;
     } catch {
@@ -81,16 +79,6 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, className = '' }) =>
                 })}
             </div>
         )
-    }
-
-    const renderContent = (message: Message) => {
-        if (message.hasImg) {
-            // const html = mdImageToHtml(message.content)
-            // return <div className="message-text" dangerouslySetInnerHTML={{ __html: html }} />
-        }
-        return <div className="message-text">
-            {message.content}
-        </div>
     }
 
 

@@ -1,16 +1,9 @@
 import { useState, useRef, useEffect } from 'react'
-import ChatMessage from './components/chatMessage'
+import ChatMessage, { type Message } from './components/chatMessage'
 import Header from './components/header'
 import './App.css'
 import VibeAsking from './components/vibeAsking'
 
-interface Message {
-    role: 'user' | 'assistant'
-    content: string
-    timestamp: Date
-    toolCalls?: any[]
-    toolResults?: any[]
-}
 
 function App() {
     const [messages, setMessages] = useState<Message[]>([])
@@ -50,7 +43,6 @@ function App() {
 
             if (data.success) {
                 const allMessages = data.messages.map((msg: any, idx: any) => {
-                    console.log("data", data.messages[idx - 2]?.tool_calls?.[0].function.name === "generate_image", data.messages[idx - 2]?.tool_calls?.[0].function.name)
                     return ({
                         role: msg.role as 'user' | 'assistant',
                         hasImg: data.messages[idx - 2]?.tool_calls?.[0].function.name === "generate_image",
@@ -81,7 +73,6 @@ function App() {
         sendMessage(question)
     }
 
-    // console.log("messages", messages)
 
     return (
         <div className="app">

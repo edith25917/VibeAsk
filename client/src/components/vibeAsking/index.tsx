@@ -1,4 +1,3 @@
-// client/src/components/VibeAsking.tsx
 import React, { useState, useRef, useEffect } from 'react'
 import './index.css'
 
@@ -90,15 +89,13 @@ const VibeAsking: React.FC<VibeAskingProps> = ({ onQuestionSubmit, disabled = fa
         const newPosition = e.target.selectionStart
         setQuestion(newQuestion)
 
-        // Clear previous timeout
         if (timeoutRef.current) {
             clearTimeout(timeoutRef.current)
         }
 
-        // Set new timeout for completion
         timeoutRef.current = setTimeout(() => {
             getCompletion(newQuestion, newPosition)
-        }, 800)
+        }, 200)
     }
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -127,7 +124,6 @@ const VibeAsking: React.FC<VibeAskingProps> = ({ onQuestionSubmit, disabled = fa
             setCompletion('')
             setShowCompletion(false)
 
-            // Focus and set cursor to end
             setTimeout(() => {
                 if (textareaRef.current) {
                     textareaRef.current.focus()
@@ -143,7 +139,6 @@ const VibeAsking: React.FC<VibeAskingProps> = ({ onQuestionSubmit, disabled = fa
         textareaRef.current?.focus()
     }
 
-    // Cleanup timeout on unmount
     useEffect(() => {
         return () => {
             if (timeoutRef.current) {
